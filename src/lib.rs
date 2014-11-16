@@ -147,6 +147,24 @@ impl<T> fmt::Show for Complex<T> where T: PartialOrd + fmt::Show + Zero {
     }
 }
 
+impl<T> Sub<T, Complex<T>> for Complex<T> where T: Clone + Sub<T, T> {
+    fn sub(&self, rhs: &T) -> Complex<T> {
+        Complex {
+            re: self.re.sub(rhs),
+            im: self.im.clone(),
+        }
+    }
+}
+
+impl<T> Sub<Complex<T>, Complex<T>> for Complex<T> where T: Sub<T, T> {
+    fn sub(&self, rhs: &Complex<T>) -> Complex<T> {
+        Complex {
+            re: self.re - rhs.re,
+            im: self.im - rhs.im,
+        }
+    }
+}
+
 impl<T> Zero for Complex<T> where T: Zero {
     fn zero() -> Complex<T> {
         Complex {
