@@ -122,6 +122,15 @@ impl<T> Mul<Complex<T>, Complex<T>> for Complex<T> where T: Add<T, T> + Mul<T, T
     }
 }
 
+impl<T> Neg<Complex<T>> for Complex<T> where T: Neg<T> {
+    fn neg(&self) -> Complex<T> {
+        Complex {
+            re: self.re.neg(),
+            im: self.im.neg(),
+        }
+    }
+}
+
 impl<T> One for Complex<T> where T: Mul<T, T> + One + Sub<T, T> + Zero {
     fn one() -> Complex<T> {
         Complex {
