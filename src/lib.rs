@@ -114,6 +114,17 @@ impl<T> Div<Complex<T>, Complex<T>> for Complex<T> where
     }
 }
 
+impl<T> Div<Complex<T>, Complex<T>> for T where T: Add<T, T> + Div<T, T> + Mul<T, T> + Neg<T> {
+    fn div(&self, rhs: &Complex<T>) -> Complex<T> {
+        let den = rhs.norm_sqr();
+
+        Complex {
+            re: (self.mul(&rhs.re)) / den,
+            im: -(self.mul(&rhs.im)) / den,
+        }
+    }
+}
+
 impl<T> Mul<T, Complex<T>> for Complex<T> where T: Mul<T, T> {
     fn mul(&self, rhs: &T) -> Complex<T> {
         Complex {
