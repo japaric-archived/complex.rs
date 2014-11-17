@@ -6,10 +6,12 @@
 extern crate onezero;
 
 use std::fmt;
-use std::num::FloatMath;
 use std::rand::{Rand, Rng};
 
 use onezero::{One, Zero};
+
+mod ffi;
+mod math;
 
 pub mod f32;
 pub mod f64;
@@ -39,32 +41,10 @@ impl<T> Complex<T> {
     }
 }
 
-impl<T> Complex<T> where T: Clone + Neg<T> {
-    /// Returns the complex conjugate
-    pub fn conj(&self) -> Complex<T> {
-        Complex {
-            re: self.re.clone(),
-            im: -self.im,
-        }
-    }
-}
-
 impl<T> Complex<T> where T: Add<T, T> + Mul<T, T> {
     /// Returns the square of the norm
-    pub fn norm_sqr(&self) -> T {
+    fn norm_sqr(&self) -> T {
         self.re * self.re + self.im * self.im
-    }
-}
-
-impl<T> Complex<T> where T: FloatMath {
-    /// Returns the absolute value
-    pub fn abs(&self) -> T {
-        self.re.hypot(self.im)
-    }
-
-    /// Returns the argument
-    pub fn arg(&self) -> T {
-        self.im.atan2(self.re)
     }
 }
 
@@ -217,6 +197,76 @@ impl<T> Zero for Complex<T> where T: Zero {
             im: Zero::zero(),
         }
     }
+}
+
+/// Mathematical operations on complex numbers
+// FIXME (AI) `T` should be an associated output type
+pub trait Math<T> {
+    /// Computes the complex absolute value (also called norm, modulus or magnitude)
+    fn abs(self) -> T;
+
+    /// Computes the arc cosine
+    fn acos(self) -> Self;
+
+    /// Computes the arc hyperbolic cosine
+    fn acosh(self) -> Self;
+
+    /// Computes the argument (also called the phase angle)
+    fn arg(self) -> T;
+
+    /// Computes the arc sine
+    fn asin(self) -> Self;
+
+    /// Computes the arc hyperbolic sine
+    fn asinh(self) -> Self;
+
+    /// Computes the arc tangent
+    fn atan(self) -> Self;
+
+    /// Computes the arc hyperbolic tangent
+    fn atanh(self) -> Self;
+
+    /// Computes the arc cosine
+    fn cos(self) -> Self;
+
+    /// Computes the arc hyperbolic cosine
+    fn cosh(self) -> Self;
+
+    /// Computes the complex base-e exponential
+    fn exp(self) -> Self;
+
+    /// Returns the imaginary part
+    fn imag(self) -> T;
+
+    /// Computes the complex base-e logarithm
+    fn log(self) -> Self;
+
+    /// Computes the complex conjugate
+    fn conj(self) -> Self;
+
+    /// Computes the complex power
+    fn pow(self, Self) -> Self;
+
+    /// Computes the Riemann sphere projection
+    fn proj(self) -> Self;
+
+    /// Returns the real part
+    fn real(self) -> T;
+
+    /// Computes the arc sine
+    fn sin(self) -> Self;
+
+    /// Computes the arc hyperbolic sine
+    fn sinh(self) -> Self;
+
+    /// Computes the square root
+    fn sqrt(self) -> Self;
+
+    /// Computes the arc tangent
+    fn tan(self) -> Self;
+
+    /// Computes the arc hyperbolic tangent
+    fn tanh(self) -> Self;
 }
 
 #[cfg(test)]
