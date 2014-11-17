@@ -82,6 +82,12 @@ impl<T> Add<Complex<T>, Complex<T>> for Complex<T> where T: Add<T, T> {
     }
 }
 
+impl<T> Add<Complex<T>, Complex<T>> for T where T: Add<T, T> + Clone {
+    fn add(&self, rhs: &Complex<T>) -> Complex<T> {
+        rhs.add(self)
+    }
+}
+
 impl<T> Div<T, Complex<T>> for Complex<T> where T: Div<T, T> {
     fn div(&self, rhs: &T) -> Complex<T> {
         Complex {
@@ -119,6 +125,12 @@ impl<T> Mul<Complex<T>, Complex<T>> for Complex<T> where T: Add<T, T> + Mul<T, T
             re: self.re * rhs.re - self.im * rhs.im,
             im: self.re * rhs.im + self.im * rhs.re,
         }
+    }
+}
+
+impl<T> Mul<Complex<T>, Complex<T>> for T where T: Mul<T, T> {
+    fn mul(&self, rhs: &Complex<T>) -> Complex<T> {
+        rhs.mul(self)
     }
 }
 
