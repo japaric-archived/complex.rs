@@ -201,6 +201,15 @@ impl<T> Sub<Complex<T>, Complex<T>> for Complex<T> where T: Sub<T, T> {
     }
 }
 
+impl<T> Sub<Complex<T>, Complex<T>> for T where T: Neg<T> + Sub<T, T> {
+    fn sub(&self, rhs: &Complex<T>) -> Complex<T> {
+        Complex {
+            re: self.sub(&rhs.re),
+            im: -rhs.im,
+        }
+    }
+}
+
 impl<T> Zero for Complex<T> where T: Zero {
     fn zero() -> Complex<T> {
         Complex {
