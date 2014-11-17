@@ -1,6 +1,7 @@
 //! Complex numbers
 
 #![deny(missing_docs, warnings)]
+#![feature(macro_rules)]
 
 extern crate onezero;
 
@@ -9,6 +10,9 @@ use std::num::FloatMath;
 use std::rand::{Rand, Rng};
 
 use onezero::{One, Zero};
+
+pub mod f32;
+pub mod f64;
 
 /// A complex number in Cartesian form.
 #[repr(C)]
@@ -193,4 +197,23 @@ impl<T> Zero for Complex<T> where T: Zero {
             im: Zero::zero(),
         }
     }
+}
+
+#[cfg(test)]
+mod test {
+    macro_rules! test {
+        ($($ty:ident),+) => {$(
+            mod $ty {
+                use Complex;
+                use $ty::I;
+
+                #[test]
+                fn constructor() {
+                    assert_eq!(Complex::new(3., 4.), I * 4. + 3.)
+                }
+            })+
+         }
+    }
+
+    test!(f32, f64)
 }
