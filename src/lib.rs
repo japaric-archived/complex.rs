@@ -42,7 +42,6 @@ impl<T> Complex<T> {
 }
 
 impl<T> Complex<T> where T: Add<T, T> + Mul<T, T> {
-    /// Returns the square of the norm
     fn norm_sqr(&self) -> T {
         self.re * self.re + self.im * self.im
     }
@@ -88,7 +87,7 @@ impl<T> Div<Complex<T>, Complex<T>> for Complex<T> where
         let den = rhs.norm_sqr();
 
         Complex {
-            re: (self.re * rhs.re + self.im + rhs.im) / den,
+            re: (self.re * rhs.re + self.im * rhs.im) / den,
             im: (self.im * rhs.re - self.re * rhs.im) / den,
         }
     }
