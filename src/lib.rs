@@ -26,8 +26,10 @@ pub struct Complex<T> {
     pub im: T,
 }
 
+/// Single precision complex number
 #[allow(non_camel_case_types)]
 pub type c64 = Complex<f32>;
+/// Double precision complex number
 #[allow(non_camel_case_types)]
 pub type c128 = Complex<f64>;
 
