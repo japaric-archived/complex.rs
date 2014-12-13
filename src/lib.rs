@@ -18,7 +18,7 @@ pub mod f64;
 
 /// A complex number in Cartesian form.
 #[repr(C)]
-#[deriving(PartialEq)]
+#[deriving(Clone, Copy, PartialEq)]
 pub struct Complex<T> {
     /// The real part
     pub re: T,
