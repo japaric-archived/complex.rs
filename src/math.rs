@@ -217,5 +217,5 @@ mod test {
          }
     }
 
-    test!(f32, f64)
+    test!(f32, f64);
 }
