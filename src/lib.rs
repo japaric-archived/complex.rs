@@ -137,7 +137,7 @@ impl<T> Mul<Complex<T>, Complex<T>> for T where T: Clone + Mul<T, T> {
 }
 
 impl<T> Neg<Complex<T>> for Complex<T> where T: Neg<T> {
-    fn neg(&self) -> Complex<T> {
+    fn neg(self) -> Complex<T> {
         Complex {
             re: -self.re,
             im: -self.im,
