@@ -6,6 +6,7 @@
 extern crate onezero;
 
 use std::fmt;
+use std::ops::{Add, Sub, Mul, Div, Neg};
 use std::rand::{Rand, Rng};
 
 use onezero::{One, Zero};
@@ -18,7 +19,7 @@ pub mod f64;
 
 /// A complex number in Cartesian form.
 #[repr(C)]
-#[deriving(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 pub struct Complex<T> {
     /// The real part
     pub re: T,
