@@ -1,7 +1,7 @@
 //! Complex numbers
 
 #![deny(missing_docs, warnings)]
-#![feature(macro_rules)]
+#![feature(macro_rules, associated_types, default_type_params)]
 
 extern crate onezero;
 
@@ -44,13 +44,14 @@ impl<T> Complex<T> {
     }
 }
 
-impl<T> Complex<T> where T: Add<T, T> + Clone + Mul<T, T> {
+impl<T> Complex<T> where T: Add<Output=T> + Clone + Mul<Output=T> {
     fn norm_sqr(self) -> T {
         self.re.clone() * self.re + self.im.clone() * self.im
     }
 }
 
-impl<T> Add<T, Complex<T>> for Complex<T> where T: Add<T, T> + Clone {
+impl<T> Add<T> for Complex<T> where T: Add<Output=T> + Clone {
+    type Output = Complex<T>;
     fn add(self, rhs: T) -> Complex<T> {
         Complex {
             re: self.re + rhs,
@@ -59,7 +60,8 @@ impl<T> Add<T, Complex<T>> for Complex<T> where T: Add<T, T> + Clone {
     }
 }
 
-impl<T> Add<Complex<T>, Complex<T>> for Complex<T> where T: Add<T, T> {
+impl<T> Add for Complex<T> where T: Add<Output=T> {
+    type Output = Complex<T>;
     fn add(self, rhs: Complex<T>) -> Complex<T> {
         Complex {
             re: self.re + rhs.re,
@@ -68,13 +70,15 @@ impl<T> Add<Complex<T>, Complex<T>> for Complex<T> where T: Add<T, T> {
     }
 }
 
-impl<T> Add<Complex<T>, Complex<T>> for T where T: Add<T, T> + Clone {
+impl<T> Add<Complex<T>> for T where T: Add<Output=T> + Clone {
+    type Output = Complex<T>;
     fn add(self, rhs: Complex<T>) -> Complex<T> {
         rhs + self
     }
 }
 
-impl<T> Div<T, Complex<T>> for Complex<T> where T: Clone + Div<T, T> {
+impl<T> Div<T> for Complex<T> where T: Clone + Div<Output=T> {
+    type Output = Complex<T>;
     fn div(self, rhs: T) -> Complex<T> {
         Complex {
             re: self.re / rhs.clone(),
@@ -83,9 +87,10 @@ impl<T> Div<T, Complex<T>> for Complex<T> where T: Clone + Div<T, T> {
     }
 }
 
-impl<T> Div<Complex<T>, Complex<T>> for Complex<T> where
-    T: Add<T, T> + Clone + Div<T, T> + Mul<T, T> + Sub<T, T>
+impl<T> Div for Complex<T> where
+    T: Add<Output=T> + Clone + Div<Output=T> + Mul<Output=T> + Sub<Output=T>
 {
+    type Output = Complex<T>;
     fn div(self, rhs: Complex<T>) -> Complex<T> {
         let den = rhs.clone().norm_sqr();
 
@@ -98,9 +103,10 @@ impl<T> Div<Complex<T>, Complex<T>> for Complex<T> where
     }
 }
 
-impl<T> Div<Complex<T>, Complex<T>> for T where
-    T: Add<T, T> + Clone + Div<T, T> + Mul<T, T> + Neg<T>,
+impl<T> Div<Complex<T>> for T where
+    T: Add<Output=T> + Clone + Div<Output=T> + Mul<Output=T> + Neg<Output=T>,
 {
+    type Output = Complex<T>;
     fn div(self, rhs: Complex<T>) -> Complex<T> {
         let den = rhs.clone().norm_sqr();
 
@@ -111,7 +117,8 @@ impl<T> Div<Complex<T>, Complex<T>> for T where
     }
 }
 
-impl<T> Mul<T, Complex<T>> for Complex<T> where T: Clone + Mul<T, T> {
+impl<T> Mul<T> for Complex<T> where T: Clone + Mul<Output=T> {
+    type Output = Complex<T>;
     fn mul(self, rhs: T) -> Complex<T> {
         Complex {
             re: self.re * rhs.clone(),
@@ -120,9 +127,10 @@ impl<T> Mul<T, Complex<T>> for Complex<T> where T: Clone + Mul<T, T> {
     }
 }
 
-impl<T> Mul<Complex<T>, Complex<T>> for Complex<T> where
-    T: Add<T, T> + Clone + Mul<T, T> + Sub<T, T>,
+impl<T> Mul for Complex<T> where
+    T: Add<Output=T> + Clone + Mul<Output=T> + Sub<Output=T>,
 {
+    type Output = Complex<T>;
     fn mul(self, rhs: Complex<T>) -> Complex<T> {
         Complex {
             re: self.re.clone() * rhs.re.clone() - self.im.clone() * rhs.im.clone(),
@@ -131,13 +139,15 @@ impl<T> Mul<Complex<T>, Complex<T>> for Complex<T> where
     }
 }
 
-impl<T> Mul<Complex<T>, Complex<T>> for T where T: Clone + Mul<T, T> {
+impl<T> Mul<Complex<T>> for T where T: Clone + Mul<Output=T> {
+    type Output = Complex<T>;
     fn mul(self, rhs: Complex<T>) -> Complex<T> {
         rhs * self
     }
 }
 
-impl<T> Neg<Complex<T>> for Complex<T> where T: Neg<T> {
+impl<T> Neg for Complex<T> where T: Neg<Output=T> {
+    type Output = Complex<T>;
     fn neg(self) -> Complex<T> {
         Complex {
             re: -self.re,
@@ -146,7 +156,7 @@ impl<T> Neg<Complex<T>> for Complex<T> where T: Neg<T> {
     }
 }
 
-impl<T> One for Complex<T> where T: Mul<T, T> + One + Sub<T, T> + Zero {
+impl<T> One for Complex<T> where T: Mul<Output=T> + One + Sub<Output=T> + Zero {
     fn one() -> Complex<T> {
         Complex {
             re: One::one(),
@@ -171,7 +181,8 @@ impl<T> fmt::Show for Complex<T> where T: PartialOrd + fmt::Show + Zero {
     }
 }
 
-impl<T> Sub<T, Complex<T>> for Complex<T> where T: Clone + Sub<T, T> {
+impl<T> Sub<T> for Complex<T> where T: Clone + Sub<Output=T> {
+    type Output = Complex<T>;
     fn sub(self, rhs: T) -> Complex<T> {
         Complex {
             re: self.re - rhs,
@@ -180,7 +191,8 @@ impl<T> Sub<T, Complex<T>> for Complex<T> where T: Clone + Sub<T, T> {
     }
 }
 
-impl<T> Sub<Complex<T>, Complex<T>> for Complex<T> where T: Sub<T, T> {
+impl<T> Sub for Complex<T> where T: Sub<Output=T> {
+    type Output = Complex<T>;
     fn sub(self, rhs: Complex<T>) -> Complex<T> {
         Complex {
             re: self.re - rhs.re,
@@ -189,7 +201,8 @@ impl<T> Sub<Complex<T>, Complex<T>> for Complex<T> where T: Sub<T, T> {
     }
 }
 
-impl<T> Sub<Complex<T>, Complex<T>> for T where T: Neg<T> + Sub<T, T> {
+impl<T> Sub<Complex<T>> for T where T: Neg<Output=T> + Sub<Output=T> {
+    type Output = Complex<T>;
     fn sub(self, rhs: Complex<T>) -> Complex<T> {
         Complex {
             re: self - rhs.re,
