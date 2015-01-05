@@ -166,7 +166,7 @@ impl<T> Neg for Complex<T> where T: Neg<Output=T> {
     }
 }
 
-impl<T> One for Complex<T> where T: Mul<Output=T> + One + Sub<Output=T> + Zero {
+impl<T> One for Complex<T> where T: One + Zero {
     fn one() -> Complex<T> {
         Complex {
             re: One::one(),
