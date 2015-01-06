@@ -199,7 +199,7 @@ mod test {
                 #[test]
                 fn arg() {
                     let z = I + 1.;
-                    assert_eq!(z.arg(), Float::frac_pi_4())
+                    assert_eq!(z.arg(), ::std::$ty::consts::FRAC_PI_4)
                 }
 
                 #[test]
