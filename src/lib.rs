@@ -1,7 +1,7 @@
 //! Complex numbers
 
+#![allow(unstable)]
 #![deny(missing_docs, warnings)]
-#![feature(macro_rules, associated_types, default_type_params)]
 
 extern crate onezero;
 
@@ -72,6 +72,7 @@ impl<T> Add for Complex<T> where T: Add<Output=T> {
     }
 }
 
+/* FIXME(rust-lang/rust#20749)
 impl<T> Add<Complex<T>> for T where T: Add<Output=T> + Clone {
     type Output = Complex<T>;
 
@@ -79,6 +80,7 @@ impl<T> Add<Complex<T>> for T where T: Add<Output=T> + Clone {
         rhs + self
     }
 }
+*/
 
 impl<T> Div<T> for Complex<T> where T: Clone + Div<Output=T> {
     type Output = Complex<T>;
@@ -108,6 +110,7 @@ impl<T> Div for Complex<T> where
     }
 }
 
+/* FIXME(rust-lang/rust#20749)
 impl<T> Div<Complex<T>> for T where
     T: Add<Output=T> + Clone + Div<Output=T> + Mul<Output=T> + Neg<Output=T>,
 {
@@ -122,6 +125,7 @@ impl<T> Div<Complex<T>> for T where
         }
     }
 }
+*/
 
 impl<T> Mul<T> for Complex<T> where T: Clone + Mul<Output=T> {
     type Output = Complex<T>;
@@ -147,6 +151,7 @@ impl<T> Mul for Complex<T> where
     }
 }
 
+/* FIXME(rust-lang/rust#20749)
 impl<T> Mul<Complex<T>> for T where T: Clone + Mul<Output=T> {
     type Output = Complex<T>;
 
@@ -154,6 +159,7 @@ impl<T> Mul<Complex<T>> for T where T: Clone + Mul<Output=T> {
         rhs * self
     }
 }
+*/
 
 impl<T> Neg for Complex<T> where T: Neg<Output=T> {
     type Output = Complex<T>;
@@ -184,9 +190,9 @@ impl<T> Rand for Complex<T> where T: Rand {
 impl<T> fmt::Show for Complex<T> where T: PartialOrd + fmt::Show + Zero {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if self.im < Zero::zero() {
-            write!(f, "{}-{}i", self.re, self.im)
+            write!(f, "{:?}-{:?}i", self.re, self.im)
         } else {
-            write!(f, "{}+{}i", self.re, self.im)
+            write!(f, "{:?}+{:?}i", self.re, self.im)
         }
     }
 }
@@ -213,6 +219,7 @@ impl<T> Sub for Complex<T> where T: Sub<Output=T> {
     }
 }
 
+/* FIXME(rust-lang/rust#20749)
 impl<T> Sub<Complex<T>> for T where T: Neg<Output=T> + Sub<Output=T> {
     type Output = Complex<T>;
 
@@ -223,6 +230,7 @@ impl<T> Sub<Complex<T>> for T where T: Neg<Output=T> + Sub<Output=T> {
         }
     }
 }
+*/
 
 impl<T> Zero for Complex<T> where T: Zero {
     fn zero() -> Complex<T> {
