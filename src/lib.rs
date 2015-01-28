@@ -187,7 +187,7 @@ impl<T> Rand for Complex<T> where T: Rand {
     }
 }
 
-impl<T> fmt::Show for Complex<T> where T: PartialOrd + fmt::Show + Zero {
+impl<T> fmt::Debug for Complex<T> where T: PartialOrd + fmt::Debug + Zero {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if self.im < Zero::zero() {
             write!(f, "{:?}-{:?}i", self.re, self.im)
