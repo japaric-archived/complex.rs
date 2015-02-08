@@ -4,5 +4,8 @@ name = "complex"
 version = "0.0.0"
 authors = ["Jorge Aparicio <japaricious@gmail.com>"]
 
+[dependencies]
+rand = "*"
+
 [dependencies.onezero]
 git = "https://github.com/japaric/onezero.rs"

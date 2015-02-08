@@ -1,13 +1,13 @@
 //! Complex numbers
 
-#![allow(unstable)]
 #![deny(missing_docs, warnings)]
 
 extern crate onezero;
+extern crate rand;
 
 use std::fmt;
 use std::ops::{Add, Sub, Mul, Div, Neg};
-use std::rand::{Rand, Rng};
+use rand::{Rand, Rng};
 
 use onezero::{One, Zero};
 
