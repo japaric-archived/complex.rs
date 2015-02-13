@@ -1,6 +1,8 @@
 //! Complex numbers
 
-#![deny(missing_docs, warnings)]
+#![cfg_attr(test, feature(core))]
+#![deny(missing_docs)]
+#![deny(warnings)]
 
 extern crate onezero;
 extern crate rand;
