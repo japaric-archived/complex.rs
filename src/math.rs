@@ -1,6 +1,8 @@
 use {Math, c64, c128, ffi};
 
-impl Math<f32> for c64 {
+impl Math for c64 {
+    type Ty = f32;
+
     fn abs(self) -> f32 {
         unsafe { ffi::cabsf(self) }
     }
@@ -90,7 +92,9 @@ impl Math<f32> for c64 {
     }
 }
 
-impl Math<f64> for c128 {
+impl Math for c128 {
+    type Ty = f64;
+
     fn abs(self) -> f64 {
         unsafe { ffi::cabs(self) }
     }

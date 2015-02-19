@@ -302,9 +302,11 @@ impl<T> fmt::Debug for Complex<T> where T: PartialOrd + fmt::Debug + Zero {
 
 /// Mathematical operations on complex numbers
 // FIXME (AI) `T` should be an associated output type
-pub trait Math<T> {
+pub trait Math {
+    type Ty;
+
     /// Computes the complex absolute value (also called norm, modulus or magnitude)
-    fn abs(self) -> T;
+    fn abs(self) -> Self::Ty;
 
     /// Computes the arc cosine
     fn acos(self) -> Self;
@@ -313,7 +315,7 @@ pub trait Math<T> {
     fn acosh(self) -> Self;
 
     /// Computes the argument (also called the phase angle)
-    fn arg(self) -> T;
+    fn arg(self) -> Self::Ty;
 
     /// Computes the arc sine
     fn asin(self) -> Self;
@@ -337,7 +339,7 @@ pub trait Math<T> {
     fn exp(self) -> Self;
 
     /// Returns the imaginary part
-    fn imag(self) -> T;
+    fn imag(self) -> Self::Ty;
 
     /// Computes the complex base-e logarithm
     fn log(self) -> Self;
@@ -352,7 +354,7 @@ pub trait Math<T> {
     fn proj(self) -> Self;
 
     /// Returns the real part
-    fn real(self) -> T;
+    fn real(self) -> Self::Ty;
 
     /// Computes the arc sine
     fn sin(self) -> Self;
