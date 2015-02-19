@@ -266,26 +266,29 @@ impl<T> Zero for Complex<T> where T: Zero {
     }
 }
 
-impl<T> approx::Eq<Abs<T>> for Complex<T> where
-    T: approx::Eq<Abs<T>> + Float,
+impl<T, U> approx::Eq<Abs<T>> for Complex<U> where
+    T: Float,
+    U: approx::Eq<Abs<T>>,
 {
-    fn approx_eq(&self, rhs: &Complex<T>, tol: Abs<T>) -> bool {
+    fn approx_eq(&self, rhs: &Complex<U>, tol: Abs<T>) -> bool {
         self.re.approx_eq(&rhs.re, tol) && self.im.approx_eq(&rhs.im, tol)
     }
 }
 
-impl<T> approx::Eq<Ulp<T>> for Complex<T> where
-    T: approx::Eq<Ulp<T>> + Float,
+impl<T, U> approx::Eq<Ulp<T>> for Complex<U> where
+    T: Copy,
+    U: approx::Eq<Ulp<T>>,
 {
-    fn approx_eq(&self, rhs: &Complex<T>, tol: Ulp<T>) -> bool {
+    fn approx_eq(&self, rhs: &Complex<U>, tol: Ulp<T>) -> bool {
         self.re.approx_eq(&rhs.re, tol) && self.im.approx_eq(&rhs.im, tol)
     }
 }
 
-impl<T> approx::Eq<Rel<T>> for Complex<T> where
-    T: approx::Eq<Rel<T>> + Float,
+impl<T, U> approx::Eq<Rel<T>> for Complex<U> where
+    T: Float,
+    U: approx::Eq<Rel<T>>,
 {
-    fn approx_eq(&self, rhs: &Complex<T>, tol: Rel<T>) -> bool {
+    fn approx_eq(&self, rhs: &Complex<U>, tol: Rel<T>) -> bool {
         self.re.approx_eq(&rhs.re, tol) && self.im.approx_eq(&rhs.im, tol)
     }
 }
@@ -379,6 +382,18 @@ mod test {
             mod $ty {
                 use Complex;
                 use $ty::I;
+
+                #[test]
+                fn approx() {
+                    let x = I + 1.;
+                    let y = I + 1.;
+
+                    assert!(::approx::eq(&x, &y, ::approx::Abs::tol(1e-5)));
+                    assert!(::approx::eq(&x, &y, ::approx::Rel::tol(1e-5)));
+                    assert!(::approx::eq(&x, &y, ::approx::Ulp::tol(1_000)));
+                    assert!(::approx::eq(&&x, &&y, ::approx::Abs::tol(1e-5)));
+                    assert!(::approx::eq(&&x, &&y, ::approx::Rel::tol(1e-5)));
+                }
 
                 #[test]
                 fn constructor() {
