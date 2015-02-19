@@ -4,13 +4,16 @@
 #![deny(missing_docs)]
 #![deny(warnings)]
 
+extern crate approx;
 extern crate onezero;
 extern crate rand;
 
 use std::fmt;
+use std::num::Float;
 use std::ops::{Add, Sub, Mul, Div, Neg};
-use rand::{Rand, Rng};
 
+use approx::{Abs, Ulp, Rel};
+use rand::{Rand, Rng};
 use onezero::{One, Zero};
 
 mod ffi;
@@ -189,16 +192,6 @@ impl<T> Rand for Complex<T> where T: Rand {
     }
 }
 
-impl<T> fmt::Debug for Complex<T> where T: PartialOrd + fmt::Debug + Zero {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        if self.im < Zero::zero() {
-            write!(f, "{:?}-{:?}i", self.re, self.im)
-        } else {
-            write!(f, "{:?}+{:?}i", self.re, self.im)
-        }
-    }
-}
-
 impl<T> Sub<T> for Complex<T> where T: Clone + Sub<Output=T> {
     type Output = Complex<T>;
 
@@ -239,6 +232,40 @@ impl<T> Zero for Complex<T> where T: Zero {
         Complex {
             re: Zero::zero(),
             im: Zero::zero(),
+        }
+    }
+}
+
+impl<T> approx::Eq<Abs<T>> for Complex<T> where
+    T: approx::Eq<Abs<T>> + Float,
+{
+    fn approx_eq(&self, rhs: &Complex<T>, tol: Abs<T>) -> bool {
+        self.re.approx_eq(&rhs.re, tol) && self.im.approx_eq(&rhs.im, tol)
+    }
+}
+
+impl<T> approx::Eq<Ulp<T>> for Complex<T> where
+    T: approx::Eq<Ulp<T>> + Float,
+{
+    fn approx_eq(&self, rhs: &Complex<T>, tol: Ulp<T>) -> bool {
+        self.re.approx_eq(&rhs.re, tol) && self.im.approx_eq(&rhs.im, tol)
+    }
+}
+
+impl<T> approx::Eq<Rel<T>> for Complex<T> where
+    T: approx::Eq<Rel<T>> + Float,
+{
+    fn approx_eq(&self, rhs: &Complex<T>, tol: Rel<T>) -> bool {
+        self.re.approx_eq(&rhs.re, tol) && self.im.approx_eq(&rhs.im, tol)
+    }
+}
+
+impl<T> fmt::Debug for Complex<T> where T: PartialOrd + fmt::Debug + Zero {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        if self.im < Zero::zero() {
+            write!(f, "{:?}-{:?}i", self.re, self.im)
+        } else {
+            write!(f, "{:?}+{:?}i", self.re, self.im)
         }
     }
 }
