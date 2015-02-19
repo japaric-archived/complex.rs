@@ -77,15 +77,21 @@ impl<T> Add for Complex<T> where T: Add<Output=T> {
     }
 }
 
-/* FIXME(rust-lang/rust#20749)
-impl<T> Add<Complex<T>> for T where T: Add<Output=T> + Clone {
-    type Output = Complex<T>;
+impl Add<Complex<f32>> for f32 {
+    type Output = Complex<f32>;
 
-    fn add(self, rhs: Complex<T>) -> Complex<T> {
+    fn add(self, rhs: Complex<f32>) -> Complex<f32> {
         rhs + self
     }
 }
-*/
+
+impl Add<Complex<f64>> for f64 {
+    type Output = Complex<f64>;
+
+    fn add(self, rhs: Complex<f64>) -> Complex<f64> {
+        rhs + self
+    }
+}
 
 impl<T> Div<T> for Complex<T> where T: Clone + Div<Output=T> {
     type Output = Complex<T>;
@@ -115,22 +121,31 @@ impl<T> Div for Complex<T> where
     }
 }
 
-/* FIXME(rust-lang/rust#20749)
-impl<T> Div<Complex<T>> for T where
-    T: Add<Output=T> + Clone + Div<Output=T> + Mul<Output=T> + Neg<Output=T>,
-{
-    type Output = Complex<T>;
+impl Div<Complex<f32>> for f32 {
+    type Output = Complex<f32>;
 
-    fn div(self, rhs: Complex<T>) -> Complex<T> {
-        let den = rhs.clone().norm_sqr();
+    fn div(self, rhs: Complex<f32>) -> Complex<f32> {
+        let den = rhs.norm_sqr();
 
         Complex {
-            re: (self.clone() * rhs.re) / den.clone(),
+            re: (self * rhs.re) / den,
             im: -(self * rhs.im) / den,
         }
     }
 }
-*/
+
+impl Div<Complex<f64>> for f64 {
+    type Output = Complex<f64>;
+
+    fn div(self, rhs: Complex<f64>) -> Complex<f64> {
+        let den = rhs.norm_sqr();
+
+        Complex {
+            re: (self * rhs.re) / den,
+            im: -(self * rhs.im) / den,
+        }
+    }
+}
 
 impl<T> Mul<T> for Complex<T> where T: Clone + Mul<Output=T> {
     type Output = Complex<T>;
@@ -156,15 +171,21 @@ impl<T> Mul for Complex<T> where
     }
 }
 
-/* FIXME(rust-lang/rust#20749)
-impl<T> Mul<Complex<T>> for T where T: Clone + Mul<Output=T> {
-    type Output = Complex<T>;
+impl Mul<Complex<f32>> for f32 {
+    type Output = Complex<f32>;
 
-    fn mul(self, rhs: Complex<T>) -> Complex<T> {
+    fn mul(self, rhs: Complex<f32>) -> Complex<f32> {
         rhs * self
     }
 }
-*/
+
+impl Mul<Complex<f64>> for f64 {
+    type Output = Complex<f64>;
+
+    fn mul(self, rhs: Complex<f64>) -> Complex<f64> {
+        rhs * self
+    }
+}
 
 impl<T> Neg for Complex<T> where T: Neg<Output=T> {
     type Output = Complex<T>;
@@ -214,18 +235,27 @@ impl<T> Sub for Complex<T> where T: Sub<Output=T> {
     }
 }
 
-/* FIXME(rust-lang/rust#20749)
-impl<T> Sub<Complex<T>> for T where T: Neg<Output=T> + Sub<Output=T> {
-    type Output = Complex<T>;
+impl Sub<Complex<f32>> for f32 {
+    type Output = Complex<f32>;
 
-    fn sub(self, rhs: Complex<T>) -> Complex<T> {
+    fn sub(self, rhs: Complex<f32>) -> Complex<f32> {
         Complex {
             re: self - rhs.re,
             im: -rhs.im,
         }
     }
 }
-*/
+
+impl Sub<Complex<f64>> for f64 {
+    type Output = Complex<f64>;
+
+    fn sub(self, rhs: Complex<f64>) -> Complex<f64> {
+        Complex {
+            re: self - rhs.re,
+            im: -rhs.im,
+        }
+    }
+}
 
 impl<T> Zero for Complex<T> where T: Zero {
     fn zero() -> Complex<T> {
