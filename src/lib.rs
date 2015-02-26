@@ -306,6 +306,7 @@ impl<T> fmt::Debug for Complex<T> where T: PartialOrd + fmt::Debug + Zero {
 /// Mathematical operations on complex numbers
 // FIXME (AI) `T` should be an associated output type
 pub trait Math {
+    /// The type of the real/imaginary parts
     type Ty;
 
     /// Computes the complex absolute value (also called norm, modulus or magnitude)
