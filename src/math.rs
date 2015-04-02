@@ -189,8 +189,6 @@ mod test {
     macro_rules! test {
         ($($ty:ident),+) => {$(
             mod $ty {
-                use std::num::Float;
-
                 use Math;
                 use $ty::I;
 

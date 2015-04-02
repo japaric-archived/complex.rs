@@ -1,20 +1,20 @@
 //! Complex numbers
 
-#![cfg_attr(test, feature(core))]
 #![deny(missing_docs)]
 #![deny(warnings)]
 
 extern crate approx;
+extern crate float;
 extern crate onezero;
 extern crate rand;
 
 use std::fmt;
-use std::num::Float;
 use std::ops::{Add, Sub, Mul, Div, Neg};
 
-use approx::{Abs, Ulp, Rel};
-use rand::{Rand, Rng};
+use approx::{Abs, Rel};
+use float::Float;
 use onezero::{One, Zero};
+use rand::{Rand, Rng};
 
 mod ffi;
 mod math;
@@ -275,15 +275,6 @@ impl<T, U> approx::Eq<Abs<T>> for Complex<U> where
     }
 }
 
-impl<T, U> approx::Eq<Ulp<T>> for Complex<U> where
-    T: Copy,
-    U: approx::Eq<Ulp<T>>,
-{
-    fn approx_eq(&self, rhs: &Complex<U>, tol: Ulp<T>) -> bool {
-        self.re.approx_eq(&rhs.re, tol) && self.im.approx_eq(&rhs.im, tol)
-    }
-}
-
 impl<T, U> approx::Eq<Rel<T>> for Complex<U> where
     T: Float,
     U: approx::Eq<Rel<T>>,
@@ -391,7 +382,6 @@ mod test {
 
                     assert!(::approx::eq(&x, &y, ::approx::Abs::tol(1e-5)));
                     assert!(::approx::eq(&x, &y, ::approx::Rel::tol(1e-5)));
-                    assert!(::approx::eq(&x, &y, ::approx::Ulp::tol(1_000)));
                     assert!(::approx::eq(&&x, &&y, ::approx::Abs::tol(1e-5)));
                     assert!(::approx::eq(&&x, &&y, ::approx::Rel::tol(1e-5)));
                 }
