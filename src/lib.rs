@@ -4,7 +4,7 @@
 #![deny(warnings)]
 
 extern crate approx;
-extern crate float;
+extern crate floaty;
 extern crate onezero;
 extern crate rand;
 
@@ -12,7 +12,7 @@ use std::fmt;
 use std::ops::{Add, Sub, Mul, Div, Neg};
 
 use approx::{Abs, Rel};
-use float::Float;
+use floaty::Floaty;
 use onezero::{One, Zero};
 use rand::{Rand, Rng};
 
@@ -267,7 +267,7 @@ impl<T> Zero for Complex<T> where T: Zero {
 }
 
 impl<T, U> approx::Eq<Abs<T>> for Complex<U> where
-    T: Float,
+    T: Floaty,
     U: approx::Eq<Abs<T>>,
 {
     fn approx_eq(&self, rhs: &Complex<U>, tol: Abs<T>) -> bool {
@@ -276,7 +276,7 @@ impl<T, U> approx::Eq<Abs<T>> for Complex<U> where
 }
 
 impl<T, U> approx::Eq<Rel<T>> for Complex<U> where
-    T: Float,
+    T: Floaty,
     U: approx::Eq<Rel<T>>,
 {
     fn approx_eq(&self, rhs: &Complex<U>, tol: Rel<T>) -> bool {

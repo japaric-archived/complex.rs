@@ -10,7 +10,7 @@ rand = "*"
 [dependencies.approx]
 git = "https://github.com/japaric/approx.rs"
 
-[dependencies.float]
+[dependencies.floaty]
 git = "https://github.com/japaric/float.rs"
 
 [dependencies.onezero]
