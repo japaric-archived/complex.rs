@@ -1,3 +1,14 @@
+# Status
+
+This crate is currently **UNMAINTAINED** and won't received updates or bug fixes. This crate is a
+dependency of the [linalg.rs] project, which is currently inactive.
+
+[linalg.rs]: https::/github.com/japaric/linalg.rs
+
+-- @japaric, 2016-05-02
+
+---
+
 [![Build Status][status]](https://travis-ci.org/japaric/complex.rs)
 
 # `complex.rs`
